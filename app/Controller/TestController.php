@@ -36,18 +36,19 @@ class TestController extends CommController
      * @var QueueService
      */
     protected $service;
+
     /**
      * @RequestMapping(path="aaa",methods="get,post")
      */
     public function test()
     {
-        for($i=1;$i<5;$i++){
+        for ($i = 1; $i < 5; $i++) {
             $this->service->sendEmail([
-                'aaabb '.$i
+                'aaabb ' . $i
             ]);
         }
 
-        return ["data"=>'aaaa'];
+        return ["data" => 'hello hyperf!'];
     }
 
     /**
@@ -57,18 +58,20 @@ class TestController extends CommController
     {
         $param = $this->request->getQueryParams();
         return [
-            "data"=>'aaaab 00'.$param["id"],
+            "data" => 'aaaab 00' . $param["id"],
             "user" => $this->user->userinfo()
         ];
     }
+
     /**
      * @RequestMapping(path="bbb",methods="get,post")
      */
     public function test2()
     {
         $params = $this->request->getQueryParams();
-        return ["data"=>$params];
+        return ["data" => $params];
     }
+
     /**
      * @RequestMapping(path="detail/{id}",methods="get")
      * @param int $id
@@ -76,15 +79,16 @@ class TestController extends CommController
      */
     public function detail(int $id)
     {
-        return ["data"=>$id];
+        return ["data" => $id];
     }
+
     /**
      * @RequestMapping(path="ccc",methods="post")
      */
     public function post()
     {
         $params = $this->request->post();
-        return ["data"=>$params];
+        return ["data" => $params];
     }
 
     /**
@@ -94,6 +98,6 @@ class TestController extends CommController
      */
     public function delete(int $id)
     {
-        return ["data"=>$id];
+        return ["data" => $id];
     }
 }

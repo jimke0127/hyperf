@@ -1,5 +1,5 @@
 #首次运行
-docker run --name mws_wms -v E:/work/maiws_wms:/opt/www  -p 9505:9501 -w /opt/www -id  hyperf/hyperf:7.4-alpine-v3.12-swoole
+docker run --name hyperf_wms -v E:/my_hyperf_wms:/opt/www  -p 9506:9501 -w /opt/www -id  hyperf/hyperf:7.4-alpine-v3.12-swoole
 php bin/hyperf.php start
 
 # 二次运行
