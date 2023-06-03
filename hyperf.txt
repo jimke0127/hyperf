@@ -1,0 +1,8 @@
+#首次运行
+docker run --name mws_wms -v E:/work/maiws_wms:/opt/www  -p 9505:9501 -w /opt/www -id  hyperf/hyperf:7.4-alpine-v3.12-swoole
+php bin/hyperf.php start
+
+# 二次运行
+docker start cmoffer_api
+docker exec -it cmoffer_api /bin/sh
+php bin/hyperf.php start
