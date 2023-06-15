@@ -10,7 +10,10 @@ namespace App\Controller\Sale;
 
 
 use App\Controller\AbstractController;
+use App\Service\User;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
+use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 
 
@@ -21,6 +24,11 @@ use Hyperf\HttpServer\Annotation\RequestMapping;
  */
 class IndexController extends AbstractController
 {
+    /**
+     * @Inject()
+     * @var User
+     */
+    private $user;
     /**
      * @RequestMapping(path="index",mothods={"get","post"})
      * author:jack(jimke127@126.com)
@@ -39,14 +47,14 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @RequestMapping (path="hello",methods="get,post")
+     * @GetMapping(path="testget")
      * author:jack(jimke127@126.com)
-     * date:2023/6/15 11:15
-     * @return string
+     * date:2023/6/15 11:49
+     * @return array
      */
     public function asad()
     {
-        return "ofjsjijsdi";
+        return $this->user->userinfo();
     }
 
 }
