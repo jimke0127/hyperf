@@ -44,7 +44,7 @@ class TestController extends CommController
     {
         for ($i = 1; $i < 5; $i++) {
             $this->service->sendEmail([
-                'aaabb ' . $i
+                'aaabbc ' . $i
             ]);
         }
 
