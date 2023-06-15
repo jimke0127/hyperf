@@ -54,7 +54,12 @@ class IndexController extends AbstractController
      */
     public function asad()
     {
-        return $this->user->userinfo();
+        $redis = $this->container->get(\Hyperf\Redis\Redis::class);
+        $redis->set("wms:name","jack test");
+        return [
+            $this->user->userinfo(),
+            $redis->get("wms:name")
+        ];
     }
 
 }
