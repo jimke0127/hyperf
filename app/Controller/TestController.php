@@ -48,7 +48,7 @@ class TestController extends CommController
             ]);
         }
 
-        return ["data" => 'hello hyperf!'];
+        return ['data' => 'hello hyperf!'];
     }
 
     /**

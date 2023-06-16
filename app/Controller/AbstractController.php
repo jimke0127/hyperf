@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Controller;
 
 use Hyperf\Di\Annotation\Inject;
@@ -35,4 +36,17 @@ abstract class AbstractController
      * @var ResponseInterface
      */
     protected $response;
+
+    public function success($data = [])
+    {
+        return $data;
+    }
+
+    public function error($msg = "操作失败", $errcode = 422)
+    {
+        return [
+            'errcode' => $errcode,
+            'errmsg' => $msg
+        ];
+    }
 }

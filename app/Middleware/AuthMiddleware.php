@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Controller\Sale\UserController;
+use Hyperf\Context\Context;
 use Hyperf\HttpServer\Contract\RequestInterface;
-use phpDocumentor\Reflection\Types\Context;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -60,7 +60,8 @@ class AuthMiddleware implements MiddlewareInterface
                 'errmsg' => 'Unauthorized'
             ])->withStatus(401);
         }
-        \Hyperf\Utils\Context::set('user_id',$user_id);
+        file_put_contents("runtime/auth.log","check auth");
+        Context::set('user_id',$user_id);
 
         return $handler->handle($request);
     }

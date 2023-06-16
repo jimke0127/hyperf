@@ -29,7 +29,11 @@ class CoreMiddleware implements MiddlewareInterface
         $response = $this->allowCors($handler->handle($request));
 
         if (\strpos($response->getHeaderLine('content-type'), 'application/json') !== 0) {
-            return $response;
+            return $this->response->json([
+                'errcode' => 0,
+                'errmsg' => 'ok',
+                'data' => $response
+            ]);
         }
 
         $result = json_decode($response->getBody()->getContents(), true);
