@@ -23,4 +23,7 @@ class ErrorCode extends AbstractConstants
      * @Message("Server Error！")
      */
     public const SERVER_ERROR = 500;
+
+    public const AUTH_ERR = 422;
+    public const AUTH_INVALID = "权限不足";
 }

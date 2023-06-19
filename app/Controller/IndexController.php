@@ -11,6 +11,13 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use Hyperf\HttpServer\Annotation\AutoController;
+
+/**
+ * @AutoController()
+ * Class IndexController
+ * @package App\Controller
+ */
 class IndexController extends AbstractController
 {
     public function index()

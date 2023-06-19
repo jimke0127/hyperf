@@ -22,12 +22,12 @@ use App\Middleware\AuthMiddleware;
 
 
 /**
- * @Controller(prefix="test")
+ * @Controller(prefix="home")
  * @Middleware(AuthMiddleware::class)
  * Class IndexController
  * @package App\Controller\Sale
  */
-class IndexController extends AbstractController
+class SiteController extends AbstractController
 {
     /**
      * @Inject()
@@ -45,7 +45,7 @@ class IndexController extends AbstractController
     {
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
-
+        return $this->error("参数不能为空");
         return $this->success([
             'method' => $method,
             'message' => "Hi {$user}.",
@@ -64,7 +64,6 @@ class IndexController extends AbstractController
     {
         $redis = $this->container->get(\Hyperf\Redis\Redis::class);
         $redis->set("wms:name", "jack test");
-        return $this->error("参数不能为空");
         return [
             $this->user->userinfo(),
             $redis->get("wms:name"),
@@ -72,9 +71,19 @@ class IndexController extends AbstractController
             Context::get('user',"null")
         ];
     }
+    /*** @RequestMapping(path="/validateTest", methods="get,post")
+     * @ValidateParams
+     * @param RequestInterface $request
+     * @return array
+     */
+    public function validateTest(RequestInterface $request){
+        $params = $request->all();
+        $userId = $params["userId"];
+        return RespResult::result(SystemCode::SYSTEM_SUCCESS, SystemMessage::SYSTEM_SUCCESS, $this->userModel->getUser($userId));
+    }
 
     /**
-     * @GetMapping(path="test")
+     * @GetMapping(path="test1")
      * author:jack(jimke127@126.com)
      * date:2023/6/15 14:18
      * @return array

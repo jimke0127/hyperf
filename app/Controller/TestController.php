@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Annotation\PreAuthorization;
 use App\Service\Queue\QueueService;
 use App\Service\User;
 use Hyperf\Di\Annotation\Inject;
@@ -38,17 +39,17 @@ class TestController extends CommController
     protected $service;
 
     /**
-     * @RequestMapping(path="aaa",methods="get,post")
+     * @RequestMapping(path="test",methods="get,post")
      */
     public function test()
     {
-        for ($i = 1; $i < 5; $i++) {
+        for ($i = 1; $i < 10; $i++) {
             $this->service->sendEmail([
                 'aaabbc ' . $i
             ]);
         }
 
-        return ['data' => 'hello hyperf!'];
+        return 'hello hyperf 33!';
     }
 
     /**
@@ -65,6 +66,7 @@ class TestController extends CommController
 
     /**
      * @RequestMapping(path="bbb",methods="get,post")
+     * @PreAuthorization(value="test:test2")
      */
     public function test2()
     {
@@ -74,6 +76,7 @@ class TestController extends CommController
 
     /**
      * @RequestMapping(path="detail/{id}",methods="get")
+     * @PreAuthorization(value="test:detail")
      * @param int $id
      * @return string[]
      */
@@ -99,5 +102,19 @@ class TestController extends CommController
     public function delete(int $id)
     {
         return ["data" => $id];
+    }
+
+    /**
+     * @RequestMapping(path="show",methods="get")
+     * @PreAuthorization(value="test:show")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/19 14:56
+     */
+    public function show()
+    {
+        return [
+            "Annotation" => "注解学习",
+            "Aspect" => "AOP学习"
+        ];
     }
 }
