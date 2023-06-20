@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use Hyperf\HttpMessage\Stream\SwooleStream;
+use Hyperf\HttpServer\Router\Dispatched;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -18,6 +19,10 @@ class CoreMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        //获取当前的控制器、方法和路由
+        $dispatched = $request->getAttribute(Dispatched::class)->handler;
+        file_put_contents("runtime/dispatched.log",print_r($dispatched,true));
+
         $response = Context::get(ResponseInterface::class);
         $response = $this->allowCors($response);
         Context::set(ResponseInterface::class, $response);
