@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Annotation\PreAuthorization;
+use App\Service\CacheService;
 use App\Service\Queue\QueueService;
 use App\Service\User;
 use Hyperf\Di\Annotation\Inject;
@@ -19,6 +20,7 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use App\Middleware\AuthMiddleware;
+use Hyperf\Redis\Redis;
 
 /**
  * @Controller(prefix="test")
@@ -37,6 +39,12 @@ class TestController extends CommController
      * @var QueueService
      */
     protected $service;
+
+    /**
+     * @Inject()
+     * @var CacheService
+     */
+    protected $cache;
 
     /**
      * @RequestMapping(path="test",methods="get,post")
@@ -116,5 +124,53 @@ class TestController extends CommController
             "Annotation" => "注解学习",
             "Aspect" => "AOP学习"
         ];
+    }
+
+    /**
+     * @RequestMapping(path="testCache",methods="get")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/21 12:30
+     * @return array
+     */
+    public function testCache(){
+        $userinfo = $this->cache->userInfo(1,"aaa",22);
+        $user = $this->cache->user();
+        return [
+            "userInfo" => $userinfo,
+            "user" => $user
+        ];
+    }
+
+    /**
+     * @RequestMapping(path="updateCache",methods="get")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/21 12:33
+     * @return array
+     */
+    public function updateCache(){
+        return $this->cache->updateUser();
+    }
+
+    /**
+     * @RequestMapping(path="delCache",methods="get")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/21 12:35
+     * @return array
+     */
+    public function delCache(){
+        return $this->cache->deleteUserCache(1);
+    }
+
+    /**
+     * @RequestMapping(path="showRedisKey",methods="get")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/21 12:40
+     * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function showRedisKey(){
+        $redis = $this->container->get(Redis::class);
+        return $redis->keys('*');
     }
 }
