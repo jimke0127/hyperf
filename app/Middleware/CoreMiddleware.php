@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use Hyperf\Contract\TranslatorInterface;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Router\Dispatched;
 use Psr\Http\Message\ResponseInterface;
@@ -17,11 +19,19 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class CoreMiddleware implements MiddlewareInterface
 {
+    /**
+     * @Inject()
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         //获取当前的控制器、方法和路由
         $dispatched = $request->getAttribute(Dispatched::class)->handler;
         file_put_contents("runtime/dispatched.log",print_r($dispatched,true));
+        //可以设置语言，如果不设置，默认英文
+        $this->translator->setLocale('zh_CN');
 
         $response = Context::get(ResponseInterface::class);
         $response = $this->allowCors($response);

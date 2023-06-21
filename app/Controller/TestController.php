@@ -173,4 +173,16 @@ class TestController extends CommController
         $redis = $this->container->get(Redis::class);
         return $redis->keys('*');
     }
+
+    /**
+     * @RequestMapping(path="lang",methods="get")
+     * author:jack(jimke127@126.com)
+     * date:2023/6/21 14:44
+     * @return array
+     */
+    public function lang(){
+        return [
+            "hello" =>  __('messages.welcome')
+        ];
+    }
 }
