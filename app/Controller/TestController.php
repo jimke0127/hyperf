@@ -12,6 +12,7 @@ use App\Annotation\PreAuthorization;
 use App\Service\CacheService;
 use App\Service\Queue\QueueService;
 use App\Service\User;
+use App\Service\ValidateService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -47,6 +48,12 @@ class TestController extends CommController
     protected $cache;
 
     /**
+     * @Inject()
+     * @var ValidateService
+     */
+    protected $validateFactory;
+
+    /**
      * @RequestMapping(path="test",methods="get,post")
      */
     public function test()
@@ -65,9 +72,19 @@ class TestController extends CommController
      */
     public function test1()
     {
-        $param = $this->request->getQueryParams();
+        $data = $this->request->getQueryParams();
+        $rule = [
+            'id' => 'required|numeric',
+            'name' => 'required',
+            'age' => 'required|numeric',
+            'email' => 'required|email',
+        ];
+        $result = $this->validateFactory->validate($data,$rule,422);
+        if($result["errcode"] > 0){
+            return $result;
+        }
         return [
-            "data" => 'aaaab 00' . $param["id"],
+            "data" => 'aaaab 00' . $data["id"],
             "user" => $this->user->userinfo()
         ];
     }

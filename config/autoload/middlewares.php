@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 return [
     'http' => [
-        \App\Middleware\CoreMiddleware::class
+        \App\Middleware\CoreMiddleware::class,
+        \Hyperf\Validation\Middleware\ValidationMiddleware::class
     ],
 ];
