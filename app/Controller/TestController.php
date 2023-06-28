@@ -58,13 +58,18 @@ class TestController extends CommController
      */
     public function test()
     {
+        $data = $this->request->all();
         for ($i = 1; $i < 10; $i++) {
             $this->service->sendEmail([
                 'aaabbc ' . $i
             ]);
         }
 
-        return 'hello hyperf 33!';
+        return [
+            'data' => $data,
+            'name' => $this->request->input("name","Hello"),
+            'info'=>'hello hyperf 33!'
+        ];
     }
 
     /**
@@ -72,7 +77,7 @@ class TestController extends CommController
      */
     public function test1()
     {
-        $data = $this->request->getQueryParams();
+        $data = $this->request->all();
         $rule = [
             'id' => 'required|numeric',
             'name' => 'required',
@@ -84,7 +89,7 @@ class TestController extends CommController
             return $result;
         }
         return [
-            "data" => 'aaaab 00' . $data["id"],
+            "data" => $data,
             "user" => $this->user->userinfo()
         ];
     }
